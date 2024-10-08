@@ -9,7 +9,7 @@ import path from 'path';
 import fs from 'fs';
 import mimes from './mimes.js';
 
-global.wwwroot = 'wwwroot/Maths';
+global.wwwroot = 'wwwroot';
 let defaultResource = 'index.html';
 
 function isDirectory(url) {
