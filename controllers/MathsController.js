@@ -29,7 +29,7 @@ export default class MathsController extends Controller {
         let operator = params.op;
         let x = parseFloat(params.x);
         let y = parseFloat(params.y);
-        let n = parseInt(params.n);
+        let n = parseFloat(params.n);
         if (['+', ' ', '-', '*', '/', '%'].includes(operator)) {
             if(Object.keys(params).length > 3) {params.error = "There are too many parameters";}
             else if(Object.keys(params).length < 3) {params.error = "There are not enough parameters";}
@@ -58,9 +58,23 @@ export default class MathsController extends Controller {
             //multiplication
             case '*': params.value = x * y; break;
             //division
-            case '/': params.value = x/y; break;
+            case '/': if(x == 0){
+              params.value = "Nan";
+            }else if(y == 0){
+              params.value = "Infinity";
+            }
+            else{
+              params.value = x/y;
+            }
+             break;
             //modulo
-            case '%': params.value = x % y; break;
+            case '%': if(x == 0 || y == 0){
+              params.value = "NaN"
+            }
+            else{
+              params.value = x % y; }
+           
+            break;
             //factorial
             case '!': params.value = this.getFactorial(n); break;
             //prime
@@ -69,6 +83,7 @@ export default class MathsController extends Controller {
             case 'np': params.value = this.findPrime(n); break;
             default: params.error = "invalid input"; break;
        }
+        
        this.HttpContext.response.JSON(params);
     }
 
