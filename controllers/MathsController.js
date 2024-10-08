@@ -27,8 +27,8 @@ export default class MathsController extends Controller {
     processOperation() {
         let params = this.HttpContext.path.params;
         let operator = params.op;
-        let x = parseInt(params.x);
-        let y = parseInt(params.y);
+        let x = parseFloat(params.x);
+        let y = parseFloat(params.y);
         let n = parseInt(params.n);
         if (['+', ' ', '-', '*', '/', '%'].includes(operator)) {
             if(Object.keys(params).length > 3) {params.error = "There are too many parameters";}
@@ -39,7 +39,7 @@ export default class MathsController extends Controller {
             if(Object.keys(params).length > 2) {params.error = "There are too many parameters";}
             else if(Object.keys(params).length < 2) {params.error = "There are not enough parameters";}
             else if (isNaN(n)) {params.error = "'n' is not a number or is missing";}
-            else if (n <= 0) {params.error = "'n' parameter must be an integer > 0";}
+            else if (n <= 0 || !Number.isInteger(n)) {params.error = "'n' parameter must be an integer > 0";}
                 
         } else {
             params.error = "operation doesn't exist";
